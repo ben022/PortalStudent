@@ -59,8 +59,26 @@ namespace PortalStudent.UseCases
             return true;
         }
 
-        public bool removeIngredientInComposition(int SId, int IId)
+        public bool removeIngredientInComposition(Sandwich sandwishToUse, Ingredient ingredientToRemove)
         {
+            using (var ctx = new PortalContext())
+            {
+                if (!ctx.Sandwiches.Any(x => x.Name == sandwishToUse.Name))
+                {
+                    throw new Exception(nameof(sandwishToUse));
+                }
+                ctx.Sandwiches.Attach(sandwishToUse);
+                /*  if (ctx.Entry(ingredientToRemove).State == EntityState.Detached)
+                      ctx.Ingredients.(ingredientToRemove);*/
+
+                var result = sandwishToUse.Ingredients
+                    .Remove(ctx.Ingredients.FirstOrDefault(x=>x.IngredientId==ingredientToRemove.IngredientId));
+
+                var state = ctx.Entry(sandwishToUse).State;
+                var state2 = ctx.Entry(ingredientToRemove).State;
+                ctx.SaveChanges();
+
+            }
 
             return true;
         }

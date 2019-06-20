@@ -41,9 +41,11 @@ namespace PortalStudent.MVC5.Controllers
             var adminRole = new AdminRole();
 
             var sandwichToUse = adminRole.GetSandwish(id);
-            var listIngredients = adminRole.GetIngredients().Except(sandwichToUse.Ingredients);
-            //var listIngredients = adminRole.GetIngredients();
-            return View(new ViewModel_Sandwich_Ingredients(sandwichToUse, listIngredients));
+            /*  var listIngredients = adminRole.GetIngredients().ToList<Ingredient>();
+              var listIngredientsIn = sandwichToUse.Ingredients.ToList<Ingredient>();
+              var listIngredientsOut = listIngredients.Except(listIngredientsIn);*/
+            var listIngredientsOut = adminRole.GetMissingIngredients(sandwichToUse);
+            return View(new ViewModel_Sandwich_Ingredients(sandwichToUse, listIngredientsOut));
         }
 
 
@@ -57,14 +59,7 @@ namespace PortalStudent.MVC5.Controllers
             return RedirectToAction("Index");
         }
 
-        /*
-        [HttpGet]
-        public ActionResult addInSandwich(Sandwich sandwich)
-        {
-            var adminRole = new AdminRole();
-            return View(adminRole.GetIngredients());
-        }*/
-
+    
         [HttpPost]
         public ActionResult addInSandwich(Sandwich sandwich,int selectedItem)
         {
@@ -119,8 +114,8 @@ namespace PortalStudent.MVC5.Controllers
         public ActionResult DeleteIngredient(int SandwichId, int IngredientId)
         {
             var adminRole = new AdminRole();
-            adminRole.removeIngredientInComposition(SandwichId, IngredientId);
-            return View("Composition", SandwichId);
+            adminRole.removeIngredientInComposition(adminRole.GetSandwish(SandwichId), adminRole.GetIngredient(IngredientId));
+            return RedirectToAction("Edit", new { id = SandwichId });
         }
         #endregion
     }

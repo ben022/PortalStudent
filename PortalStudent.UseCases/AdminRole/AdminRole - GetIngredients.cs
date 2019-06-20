@@ -18,13 +18,21 @@ namespace PortalStudent.UseCases
             }
         }
 
-       /* public List<Ingredient> GetMissingIngredients(Sandwich sandwich)
+        public List<Ingredient> GetMissingIngredients(Sandwich sandwich)
         {
             using (var ctx = new PortalContext())
             {
-                return ctx.Ingredients.ToList().Except(sandwich.Ingredients);
+                var ingInSand = (from x in ctx.Sandwiches
+                                where x.SandwichId == sandwich.SandwichId
+                                select x.Ingredients).ToList();
+                var alling = (from x in ctx.Ingredients
+                              select x).ToList();
+
+                var listOutSandwich = alling.Where(p => ingInSand[0].All(p2 => p2.IngredientId != p.IngredientId));
+               
+                return listOutSandwich.ToList();
             }
-        }*/
+        }
 
     }
 }
