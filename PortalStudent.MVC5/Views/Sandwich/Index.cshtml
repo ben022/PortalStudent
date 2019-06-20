@@ -21,7 +21,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+               <b> @Html.DisplayFor(modelItem => item.Name)</b>
                 (
                 @{
                     var fullIngredients = "";
@@ -30,11 +30,11 @@
                 {
                     if (fullIngredients != "")
                     {
-                        fullIngredients += ", ";
+                        fullIngredients += "  ,  ";
                     }
                     fullIngredients += ing.Name;
                 }
-                @Html.DisplayFor(ModelIng => fullIngredients)
+                <i>@Html.DisplayFor(ModelIng => fullIngredients)</i>
                 )
             </td>
             <td>

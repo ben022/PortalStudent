@@ -17,5 +17,14 @@ namespace PortalStudent.UseCases
                 return ctx.Ingredients.ToList();
             }
         }
+
+       /* public List<Ingredient> GetMissingIngredients(Sandwich sandwich)
+        {
+            using (var ctx = new PortalContext())
+            {
+                return ctx.Ingredients.ToList().Except(sandwich.Ingredients);
+            }
+        }*/
+
     }
 }

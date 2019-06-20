@@ -41,8 +41,8 @@ namespace PortalStudent.MVC5.Controllers
             var adminRole = new AdminRole();
 
             var sandwichToUse = adminRole.GetSandwish(id);
-            //var listIngredients = adminRole.GetIngredients().Except(sandwichToUse.Ingredients);
-            var listIngredients = adminRole.GetIngredients();
+            var listIngredients = adminRole.GetIngredients().Except(sandwichToUse.Ingredients);
+            //var listIngredients = adminRole.GetIngredients();
             return View(new ViewModel_Sandwich_Ingredients(sandwichToUse, listIngredients));
         }
 
@@ -66,25 +66,25 @@ namespace PortalStudent.MVC5.Controllers
         }*/
 
         [HttpPost]
-        public ActionResult addInSandwich(int Idsandwich, int Idingredient)
+        public ActionResult addInSandwich(Sandwich sandwich,int selectedItem)
         {
             var adminRole = new AdminRole();
 
-            var sandwich = adminRole.GetSandwish(Idsandwich);
-            var ingredient = adminRole.GetIngredient(Idingredient);
-            adminRole.ComposeSandwish(sandwich, ingredient);
+             var sandwich2 = adminRole.GetSandwish(sandwich.SandwichId);
+             var ingredient = adminRole.GetIngredient(selectedItem);
+            adminRole.ComposeSandwish(sandwich2, ingredient);
 
-            return RedirectToAction("Edit",Idsandwich);
+            return RedirectToAction("Edit", new { id = sandwich2.SandwichId });
         }
 
 
 
 
-        //[HttpGet]
-        //public ActionResult Details()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public ActionResult Details()
+        {
+            return View();
+        }
 
         //TODO Not in Benjamin
         [HttpPost]

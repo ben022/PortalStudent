@@ -25,9 +25,17 @@ namespace PortalStudent.DataAccess
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Sandwich>()
                         .HasMany<Ingredient>(s => s.Ingredients)
-                        .WithMany(i => i.Sandwiches);
+                        .WithMany(i => i.Sandwiches)
+                        .Map(cs =>
+                            {
+                                cs.MapLeftKey("SandwichId");
+                                cs.MapRightKey("IngredientId");
+                                cs.ToTable("SandwichIngredients");
+                            });
         }
     }
 }

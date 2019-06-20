@@ -10,11 +10,13 @@ namespace PortalStudent.MVC5.Models
     {
         public Sandwich Sandwich { get; set; }
         public IEnumerable<Ingredient> Ingredients { get; set; }
+        public Ingredient selectedItem { get; set; }
 
         public ViewModel_Sandwich_Ingredients(Sandwich sandwich, IEnumerable<Ingredient> ingredients)
         {
             Sandwich = sandwich;
             Ingredients = ingredients;
+            selectedItem = new Ingredient();
         }
     }
 }

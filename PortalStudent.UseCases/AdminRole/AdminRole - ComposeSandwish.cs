@@ -2,6 +2,7 @@
 using PortalStudent.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,6 @@ namespace PortalStudent.UseCases
 
         public bool ComposeSandwish(Sandwich sandwishToUse,Ingredient ingredientsToAdd)
         {
-            sandwishToUse.Ingredients.Add(ingredientsToAdd);
             
             using (var ctx = new PortalContext())
             {
@@ -44,6 +44,14 @@ namespace PortalStudent.UseCases
                 }
                 ctx.Sandwiches.Attach(sandwishToUse);
 
+                if (ctx.Entry(ingredientsToAdd).State == EntityState.Detached)
+                    ctx.Ingredients.Attach(ingredientsToAdd);
+
+                sandwishToUse.Ingredients.Add(ingredientsToAdd);
+
+
+                var state = ctx.Entry(sandwishToUse).State;
+                var state2 = ctx.Entry(ingredientsToAdd).State;
                 ctx.SaveChanges();
 
             }

@@ -58,24 +58,28 @@
     </div>
 }
 <hr />
-@using (Html.BeginForm())
+@using (Html.BeginForm("addInSandwich", "Sandwich", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.Sandwich.SandwichId, htmlAttributes: new { id = "idSandwich", name = "idSandwich" })
+        @Html.LabelFor(x => Model.Ingredients, "Available ingredients")
+        <div class="form-group">
+            @Html.DropDownListFor(x => x.selectedItem, new SelectList(Model.Ingredients, "IngredientId", "Name", Model.Ingredients.First().IngredientId), htmlAttributes: new { @class = "form-control" })
+        </div>
 
-<div class="form-horizontal">
-    @Html.LabelFor(x => Model.Ingredients, "Available ingredients")
-    <div class="form-group">
-        @Html.DropDownListFor(x => Model.Ingredients, new SelectList(Model.Ingredients, "IngredientId", "Name"), htmlAttributes: new { @class = "form-control", id = "Ingredient" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add in sandwich" class="btn btn-default" />
+            </div>
+        </div>
+        <!-- Benjamin : pas encore réussi à faire fonctionner ce lien avec Javascript -->
+        <!--@Html.ActionLink("Add new ingredient", "addInSandwich", new { Idsandwich = Model.Sandwich.SandwichId, Idingredient = "onClickAddIngredient();" })-->
+
+
+
     </div>
 
-    <p>
-        <!-- Benjamin : pas encore réussi à faire fonctionner ce lien avec Javascript -->
-       @Html.ActionLink("Add new ingredient", "addInSandwich", new { Idsandwich = Model.Sandwich.SandwichId, Idingredient = "onClickAddIngredient();" })
-
-    </p>
-
-</div>
- 
 }
 <div>
     @Html.ActionLink("Back to List", "Index")
